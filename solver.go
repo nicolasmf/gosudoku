@@ -32,6 +32,26 @@ func draw() {
 	fmt.Println()
 }
 
+func alreadyInColumn(y int, value string) bool {
+	for i := 0; i < 9; i++ {
+		if board[i][y] == value {
+			return true
+		}
+	}
+	return false
+}
+
+func alreadyInLine(x int, value string) bool {
+	for i := 0; i < 9; i++ {
+		if board[x][i] == value {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
 	draw()
+	fmt.Println(alreadyInColumn(4, "8"))
+	fmt.Println(alreadyInLine(4, "1"))
 }
