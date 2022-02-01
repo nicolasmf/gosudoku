@@ -50,6 +50,18 @@ func alreadyInLine(x int, value string) bool {
 	return false
 }
 
+func alreadyInSquare(x int, y int, value string) bool {
+	square_x, square_y := int(x/3)*3, int(y/3)*3
+	for browse_x := range [3]int{} {
+		for browse_y := range [3]int{} {
+			if board[square_x+browse_x][square_y+browse_y] == value {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 func main() {
 	draw()
 	fmt.Println(alreadyInColumn(4, "8"))
