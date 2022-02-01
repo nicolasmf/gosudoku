@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 var board = [9][9]string{
 	{"5", "3", ".", ".", "7", ".", ".", ".", "."},
@@ -62,8 +65,48 @@ func alreadyInSquare(x int, y int, value string) bool {
 	return false
 }
 
+func canPlace(x int, y int, value string) bool {
+	return !alreadyInColumn(y, value) && !alreadyInLine(x, value) && !alreadyInSquare(x, y, value)
+}
+
+func next(x int, y int) (int, int) {
+	nextX, nextY := (x+1)%9, y
+	if nextX == 0 {
+		nextY = y + 1
+	}
+	return nextX, nextY
+}
+
+func solve(x int, y int) bool {
+	if y == 9 {
+		return true
+	}
+
+	if board[x][y] != "." {
+		return solve(next(x, y))
+	} else {
+		for i := 0; i < 9; i++ {
+			value := strconv.Itoa(i + 1)
+			if canPlace(x, y, value) {
+				board[x][y] = value
+				if solve(next(x, y)) {
+					return true
+				} else {
+					board[x][y] = "."
+				}
+			}
+		}
+		return false
+	}
+}
+
 func main() {
 	draw()
-	fmt.Println(alreadyInColumn(4, "8"))
-	fmt.Println(alreadyInLine(4, "1"))
+
+	if solve(0, 0) {
+		fmt.Println("Solution Found :")
+		draw()
+	} else {
+		fmt.Println("No solution")
+	}
 }
